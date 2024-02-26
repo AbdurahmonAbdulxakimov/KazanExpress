@@ -2,6 +2,14 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models import CharField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.db import models
+
+
+class Role(models.Model):
+    title = models.CharField(max_length=256)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class User(AbstractUser):
@@ -15,6 +23,8 @@ class User(AbstractUser):
     name = CharField(_("Name of User"), blank=True, max_length=255)
     first_name = None  # type: ignore
     last_name = None  # type: ignore
+
+    roles = models.ManyToManyField(Role, related_name="users")
 
     def get_absolute_url(self) -> str:
         """Get URL for user's detail view.
