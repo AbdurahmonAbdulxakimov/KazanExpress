@@ -54,9 +54,14 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ("image",)
 
 
+class ImageInline(admin.StackedInline):
+    model = Image
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("title", "category", "shop", "price")
+    inlines = (ImageInline,)
 
     def has_change_permission(self, request, obj=None) -> bool:
         if super().has_change_permission(request, obj):

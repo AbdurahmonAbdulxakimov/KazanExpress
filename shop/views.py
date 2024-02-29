@@ -6,6 +6,7 @@ from rest_framework.generics import (
 )
 from rest_framework import filters
 from rest_framework import permissions
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 
 from shop import models
@@ -31,6 +32,10 @@ class ShopRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 class ProductsListCreateAPIView(ListCreateAPIView):
     queryset = models.Product.objects.all()
+    parser_classes = (
+        MultiPartParser,
+        FormParser,
+    )
     serializer_class = serializers.ProductSerializer
 
 

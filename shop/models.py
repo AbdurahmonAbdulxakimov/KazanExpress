@@ -23,13 +23,6 @@ class Shop(BaseModel):
         return self.title
 
 
-class Image(BaseModel):
-    image = models.ImageField(upload_to="products/")
-
-    def __str__(self) -> str:
-        return self.image
-
-
 class Product(BaseModel):
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)
@@ -44,9 +37,15 @@ class Product(BaseModel):
 
     is_active = models.BooleanField(default=True)
 
-    images = models.ManyToManyField(
-        Image, related_name="products", null=True, blank=True
+    def __str__(self) -> str:
+        return self.title
+
+
+class Image(BaseModel):
+    image = models.ImageField(upload_to="products/")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="images"
     )
 
     def __str__(self) -> str:
-        return self.title
+        return self.image.path
