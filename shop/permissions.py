@@ -9,6 +9,8 @@ class IsShopAdmin(permissions.BasePermission):
     )
 
     def has_permission(self, request, view) -> bool:
+        print(request.method)
+
         if request.method in self.EDIT_METHODS:
             if not request.user.roles.filter(title="shop_admin"):
                 return False
